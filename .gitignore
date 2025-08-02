@@ -1,0 +1,32 @@
+# Legacy code and temp files
+legacy/
+templ.sh
+
+# Secrets and credentials
+wireguard_keys.txt
+**/secrets.h
+**/secrets.py
+**/.env
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+config.json
+
+# Build artifacts and dependencies
+**/.pio/
+**/node_modules/
+**/dist/
+**/build/
+**/.cache/
+
+# IDE and system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+**/logs/

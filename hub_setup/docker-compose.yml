@@ -1,0 +1,61 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    container_name: poolio-mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./data/mosquitto:/mosquitto/data
+      - ./logs/mosquitto:/mosquitto/log
+    user: "${USER_ID}:${GROUP_ID}"
+
+  influxdb:
+    image: influxdb:2.7
+    container_name: poolio-influxdb
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    volumes:
+      - ./data/influxdb:/var/lib/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=poolio
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=poolio
+      - DOCKER_INFLUXDB_INIT_BUCKET=sensor-data
+
+  api:
+    build: ./api
+    container_name: poolio-api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./config:/app/config
+      - ./logs:/app/logs
+    environment:
+      - NODE_ENV=production
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=${INFLUXDB_TOKEN:-}
+      - MQTT_BROKER=mosquitto://mosquitto:1883
+    depends_on:
+      - mosquitto
+      - influxdb
+
+  web:
+    build: ./web
+    container_name: poolio-web
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./web/dist:/usr/share/nginx/html
+    depends_on:
+      - api
+
+networks:
+  default:
+    name: poolio-network

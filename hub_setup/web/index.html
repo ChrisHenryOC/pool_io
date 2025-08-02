@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PoolIO Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🏊‍♂️ PoolIO Dashboard</h1>
+        <div class="status-indicator" id="connectionStatus">
+            <span class="dot offline"></span>
+            <span>Connecting...</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="dashboard-grid">
+            <!-- Pool Temperature -->
+            <div class="card">
+                <h2>🌡️ Pool Temperature</h2>
+                <div class="metric">
+                    <span class="value" id="temperature">--</span>
+                    <span class="unit">°F</span>
+                </div>
+                <div class="timestamp" id="tempTimestamp">--</div>
+            </div>
+
+            <!-- Water Level -->
+            <div class="card">
+                <h2>💧 Water Level</h2>
+                <div class="metric">
+                    <span class="status" id="waterLevel">--</span>
+                </div>
+                <div class="timestamp" id="levelTimestamp">--</div>
+            </div>
+
+            <!-- Node Battery -->
+            <div class="card">
+                <h2>🔋 Node Battery</h2>
+                <div class="metric">
+                    <span class="value" id="battery">--</span>
+                    <span class="unit">V</span>
+                </div>
+                <div class="timestamp" id="batteryTimestamp">--</div>
+            </div>
+
+            <!-- System Status -->
+            <div class="card">
+                <h2>⚙️ System Status</h2>
+                <div class="status-grid">
+                    <div class="status-item">
+                        <span>MQTT</span>
+                        <span class="status-dot" id="mqttStatus">●</span>
+                    </div>
+                    <div class="status-item">
+                        <span>InfluxDB</span>
+                        <span class="status-dot" id="influxStatus">●</span>
+                    </div>
+                    <div class="status-item">
+                        <span>API</span>
+                        <span class="status-dot" id="apiStatus">●</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card activity-card">
+            <h2>📊 Recent Activity</h2>
+            <div class="activity-list" id="activityList">
+                <p class="no-data">No recent activity</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>PoolIO Hub v1.0 | Last updated: <span id="lastUpdate">--</span></p>
+        <div class="footer-links">
+            <a href="http://192.168.68.120:8086" target="_blank">InfluxDB Admin</a>
+            <a href="http://192.168.68.120:3000/health" target="_blank">API Health</a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
